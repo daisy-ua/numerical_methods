@@ -17,14 +17,14 @@ namespace lobachevsky_method
             this.function = f;
             this.a = a;
             this.b = b;
-            this.derivative = GetDerivative(f);
+            this.derivative = GetDerivative();
         }
 
-        private Func<double, double> GetDerivative(Func<double, double> f)
+        public Func<double, double> GetDerivative()
         {
             double step = 1e-4;
 
-            return ( double x ) => ( f(x + step) - f(x) / step );
+            return (double x) => (function(x) - function(x - step)) / step;
         }
     }
 }
