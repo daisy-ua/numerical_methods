@@ -36,5 +36,10 @@ namespace lobachevsky_method.approximation_methods
         {
             return Math.Abs(a - b) < epsilon;
         }
+
+        public static bool IsRootObtained(double a, double b, double q)
+        {
+            return Math.Abs(a-b) <= (1 - q) / q * epsilon;
+        }
     }
 }
