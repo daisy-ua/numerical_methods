@@ -21,11 +21,11 @@ namespace lobachevsky_method
             if (Double.IsNegativeInfinity(a)) a = minInfiniteValue;
             if (Double.IsPositiveInfinity(b)) b = maxInfiniteValue;
             
-            bool isGrows = f(a) < f(a + step);
+            bool isGrows = f(a) <= f(a + step);
 
             for (double i = a; i < b; i += step)
             {
-                if (f(i) < f(i + step) != isGrows) 
+                if (f(i) <= f(i + step) != isGrows) 
                     return false;
             }
 
@@ -35,11 +35,12 @@ namespace lobachevsky_method
         public static List<double> GetMonotonicIntervals(double lowerBound, double upperBound, Func<double, double> f)
         {
             List<double> intervalBreaks = new List<double>(); 
-            intervalBreaks.Add(lowerBound);
 
+            intervalBreaks.Add(lowerBound);
+            
             bool isGrows = f(lowerBound) <= f(lowerBound + step);
 
-            for (double i = lowerBound + step; i < upperBound; i += step)
+            for (double i = lowerBound; i < upperBound; i += step)
             {
                 if (f(i) <= f(i + step) != isGrows)
                 {
@@ -57,8 +58,8 @@ namespace lobachevsky_method
             double lowerNegativeBound, double upperNegativeBound, Func<double, double> f) 
             {
                 List<double> monotonicBreaks = new List<double>();
-
                 monotonicBreaks.AddRange(GetMonotonicIntervals(lowerNegativeBound, upperNegativeBound, f));
+                monotonicBreaks.Add(Double.NaN);
                 monotonicBreaks.AddRange(GetMonotonicIntervals(lowerPositiveBound, upperPositiveBound, f));
 
                 return monotonicBreaks.ToArray();

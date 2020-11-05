@@ -42,7 +42,7 @@ namespace lobachevsky_method.approximation_methods
 
         private static void CheckInitialConditions(Function f)
         {
-            if (!Auxiliary.IsMonotonicOnRange(f.a, f.b, f.derivative))
+            if (!Auxiliary.IsMonotonicOnRange(f.a, f.b, f.function))
                 throw new System.InvalidOperationException(
                     "Function isn't monotonic on this range! Choose another one.");
             
