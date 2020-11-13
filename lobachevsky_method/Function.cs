@@ -26,5 +26,12 @@ namespace lobachevsky_method
 
             return (double x) => (function(x) - function(x - step)) / step;
         }
+
+        public static Func<double, double> GetDerivative(Func<double, double> f)
+        {
+            double step = 1e-4;
+
+            return (double x) => (f(x) - f(x - step)) / step;
+        }
     }
 }
