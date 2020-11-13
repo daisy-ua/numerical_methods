@@ -13,24 +13,42 @@ namespace lobachevsky_method.approximation_methods
         public static double GetRoot(Function function)
         {
             f = function;
-            df2 = f.GetDerivative();
-            xStart = f.a;
+            df2 = Function.GetDerivative(f.derivative);
 
             CheckInitialConditions();
 
-            int counter = 0;
+            int counter = 1;
+
+            xStart = GetInitialApproximation();
 
             while (true)
             {
                 double coeff = GetCoeff(counter);
-                xCurr = xStart - f.function(xStart) * coeff 
-                    / (f.function(xStart + coeff) - f.function(coeff));
-                
+                xCurr = xStart - f.function(xStart) * coeff
+                    / (f.function(xStart + coeff) - f.function(xStart));
+
                 if (Auxiliary.IsRootObtained(xStart, xCurr)) return xCurr;
 
                 xStart = xCurr;
                 counter += 1;
-            } 
+            }
+        }
+
+        private static double GetInitialApproximation()
+        {
+            double start = f.a;
+            double end = f.b;
+            double step = 1e-7;
+
+            while (true)
+            {
+                if (CheckFourierCondition(start)) return start;
+                if (CheckFourierCondition(end)) return end;
+
+                start += step;
+                end -= step;
+            }
+
         }
 
         private static void CheckInitialConditions()
@@ -38,23 +56,17 @@ namespace lobachevsky_method.approximation_methods
             if (!Auxiliary.IsMonotonicOnRange(f.a, f.b, f.function))
                 throw new System.InvalidOperationException(
                     "Function isn't monotonic on this range! Choose another one.");
-            
+
             else if (!Auxiliary.IsRootOnRange(f.a, f.b, f.function))
                 throw new System.InvalidOperationException(
                     "Function have no roots on this range! Choose another one.");
         }
 
-        private static void CheckFourierCondition(double x)
-        {
-            if (f.function(x) * df2(x) <= 0)
-                throw new System.InvalidOperationException(
-                    "Cannot get roots! Fourier condition was not fulfilled."
-                );
-        }
+        private static bool CheckFourierCondition(double x) => (f.function(x) * df2(x) <= 0) ? false : true;
 
         private static double GetCoeff(int counter)
         {
-            return Math.Sqrt(2) / (counter + 2);
+            return Math.Sqrt(2) / (counter  + 2);
         }
     }
 }
