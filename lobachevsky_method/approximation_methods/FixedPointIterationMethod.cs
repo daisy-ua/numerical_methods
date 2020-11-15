@@ -30,6 +30,8 @@ namespace lobachevsky_method.approximation_methods
             {
                 xEnd = GetPhi(xStart);
 
+                Console.WriteLine("\n\tRoot in iteration {0}: {1}", counter, xEnd);
+
                 if ((Auxiliary.IsRootObtained(xStart, xEnd, q)))
                     break;
                 

@@ -30,6 +30,9 @@ namespace lobachevsky_method.approximation_methods
                 if (Auxiliary.IsRootObtained(xStart, xCurr)) return xCurr;
 
                 xStart = xCurr;
+
+                Console.WriteLine("\n\tRoot in iteration {0}: {1}", counter, xCurr);
+
                 counter += 1;
             }
         }

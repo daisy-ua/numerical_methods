@@ -16,6 +16,7 @@ namespace lobachevsky_method.approximation_methods
             xEnd = f.b;
 
             double x = 0;
+            int counter = 1;
 
             do
             {
@@ -26,6 +27,9 @@ namespace lobachevsky_method.approximation_methods
                 {
                     return x;
                 }
+
+                Console.WriteLine("\n\tRoot in iteration {0}: {1}", counter, x);
+
                 if (f.function(x) * f.function(xEnd) < 0)
                 {
                     xStart = x;
@@ -33,7 +37,9 @@ namespace lobachevsky_method.approximation_methods
                 else if (f.function(xStart) * f.function(x) < 0)
                 {
                     xEnd = x;
-                }     
+                }   
+
+                counter += 1;  
 
             } while( !Auxiliary.IsRootObtained(xStart, xEnd));
 

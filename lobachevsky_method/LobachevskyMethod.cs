@@ -138,6 +138,7 @@ namespace lobachevsky_method
             double power = Math.Pow(2, -counter);
 
             int j = 0;
+            
             for (int i = 1; i < coeffs.Length; i++, j++)
             {
                 roots[j] = Math.Pow(coeffs[i] / coeffs[i - 1], power);
@@ -229,7 +230,6 @@ namespace lobachevsky_method
 
             return 1 + Math.Pow(maxAbsNegative / coeffs[0], 1 / (double)firstNegativeIndex);
         }
-
 
         private static double[] ReverseCoeffs(double[] coeffs)
         {
