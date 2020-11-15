@@ -22,6 +22,8 @@ namespace lobachevsky_method.approximation_methods
 
             InitValues();
 
+            if (q >= 1) throw new System.Exception("Cannot find root by this method. q parameter >= 1.");
+
             int counter = 0;
 
             while (true)
@@ -30,6 +32,12 @@ namespace lobachevsky_method.approximation_methods
 
                 if ((Auxiliary.IsRootObtained(xStart, xEnd, q)))
                     break;
+                
+                if (xEnd > f.b || xEnd < f.a) 
+                    throw new System.Exception("Cannot find root by this method. Out of range!");
+
+                if (Math.Abs(1 - lambda * f.derivative(xEnd)) > q)
+                    throw new System.Exception("Cannot find root by this method.");
 
                 xStart = xEnd;
                 counter += 1;
@@ -43,7 +51,7 @@ namespace lobachevsky_method.approximation_methods
             if (!Auxiliary.IsMonotonicOnRange(f.a, f.b, f.function))
                 throw new System.InvalidOperationException(
                     "Function isn't monotonic on this range! Choose another one.");
-            
+
             else if (!Auxiliary.IsRootOnRange(f.a, f.b, f.function))
                 throw new System.InvalidOperationException(
                     "Function have no roots on this range! Choose another one.");
@@ -51,18 +59,16 @@ namespace lobachevsky_method.approximation_methods
 
         private static void InitValues()
         {
-            if (Auxiliary.IsMonotonicOnRange(f.a, f.b, f.derivative))
-            {
-                double minValue = Math.Min(f.derivative(f.a), f.derivative(f.b));
-                double maxValue = Math.Max(f.derivative(f.a), f.derivative(f.b));
+            xStart = (f.a + f.b) / 2;
+         
+            double min = Math.Min(f.function(f.a), f.function(f.b));
+            double max = Math.Max(f.function(f.a), f.function(f.b));
 
-                lambda = 2 / (minValue + maxValue);
+            if (min <= 0) min = Auxiliary.epsilon;
 
-                q = (maxValue - minValue) / (maxValue + minValue);
+            lambda = 1 / f.derivative(xStart);
 
-                xStart = f.a;
-                xEnd = f.b;
-            }
+            q = 1 - min / max;
         }
     }
 }
