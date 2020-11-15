@@ -5,7 +5,7 @@ namespace lobachevsky_method
 {
     public static class Auxiliary
     {
-        public static double epsilon = 1e-7;
+        public static double epsilon { set; get; } = 1e-7;
         public static double step = 1e-1; 
 
         private static double minInfiniteValue = -1e3;
@@ -72,7 +72,7 @@ namespace lobachevsky_method
 
         public static bool IsRootObtained(double a, double b, double q)
         {
-            return Math.Abs(a-b) <= (1 - q) / q * epsilon;
+            return Math.Abs(a-b) <= Math.Abs((1 - q) * epsilon / q);
         }
     }
 }
